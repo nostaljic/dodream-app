@@ -1,5 +1,6 @@
 import 'package:dodream/ui/complete.dart';
-import 'package:dodream/ui/purchase.dart';
+import 'package:dodream/ui/purchase_artwork_view.dart';
+import 'package:dodream/ui/retrieve_artworks_view.dart';
 import 'package:dodream/ui/user_selection.dart';
 import 'package:get/get.dart';
 import 'package:dodream/ui/file.dart';
@@ -18,6 +19,7 @@ abstract class Routes {
   static const SELECT = '/select';
 
   /// for purchasee
+  static const RETRIEVE = '/retrieve';
   static const PURCHASE = '/purchase';
 
   static const COMPLETE = '/complete';
@@ -43,6 +45,15 @@ class AppPages {
     GetPage(name: Routes.SELECT, page: () => const UserSelection()),
 
     /// added for purchase
-    GetPage(name: Routes.PURCHASE, page: () => const PurchaseView()),
+    GetPage(
+        name: Routes.RETRIEVE,
+        page: () => const RetrieveArtWorksView(),
+        bindings: [RetrieveAndPurchaseBinding()]),
+    
+    GetPage(
+      name: Routes.PURCHASE,
+      page: () => const PurchaseArtworkView(),
+      bindings: [RetrieveAndPurchaseBinding()]
+    )
   ];
 }
