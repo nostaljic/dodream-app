@@ -225,8 +225,11 @@ class MethodSelection extends GetView<MainController> {
           onPressed: () async {
               print(controller.formKey_dodream_login.currentState!.validate());
               if(controller.formKey_dodream_login.currentState!.validate()){
-  var res = await controller.repository.signinWithUserInfo(controller.accountTextController.text, controller.passwordTextController.text);
-                if(res==true){Get.offNamed("/select");}
+
+                var res = await controller.repository.signinWithUserInfo(controller.accountTextController.text, controller.passwordTextController.text);
+                print(res);
+                  Get.offNamed("/select");
+
 
               }else{
                 //Get.toNamed("/plan");
