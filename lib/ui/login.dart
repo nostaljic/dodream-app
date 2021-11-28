@@ -224,20 +224,19 @@ class MethodSelection extends GetView<MainController> {
           minWidth: Get.width,
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           onPressed: () async {
-            // print(controller.formKey_dodream_login.currentState!.validate());
-            // if (controller.formKey_dodream_login.currentState!.validate()) {
-            //   var res = await controller.repository.signinWithUserInfo(
-            //       controller.accountTextController.text,
-            //       controller.passwordTextController.text,
-            //       controller.walletAddressTextController.text);
-            //   //Get.offNamed("/select");
-            //   if (res['result'] == true) {
-            //     Get.offNamed("/select");
-            //   }
-            // } else {
-            //   //Get.toNamed("/plan");
-            // }
+            print(controller.formKey_dodream_login.currentState!.validate());
+            if (controller.formKey_dodream_login.currentState!.validate()) {
+              var res = await controller.repository.signinWithUserInfo(
+                  controller.accountTextController.text,
+                  controller.passwordTextController.text,
+                  controller.walletAddressTextController.text);
+              //Get.offNamed("/select");
+              if (res['result'] == true) {
                 Get.offNamed("/select");
+              }
+            } else {
+              //Get.toNamed("/plan");
+            }
           },
           child: const Text(
             "로그인",
