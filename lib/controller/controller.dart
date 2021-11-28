@@ -105,10 +105,17 @@ class RetrieveAndPurchaseController extends GetxController {
   late List<Item> items;
   Item? selectedItem;
 
+  late int currentBalance = 0;
+
   @override
   Future<void> onInit() async {
     super.onInit();
     items = retrieveRepository.items;
+    List<String> balances = await retrieveRepository.getUserAccountBalance(
+        userAccessToken:
+            "dc29640ad73b5918d9910839f305b445d2efd163947def10be487b0ec1aa946e",
+        finAcno: "00820100012470000000000012778");
+    currentBalance = int.parse(balances[0]);
   }
 
   // TODO select and purchase

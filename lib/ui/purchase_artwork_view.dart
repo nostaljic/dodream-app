@@ -15,8 +15,8 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
 
   @override
   Widget build(BuildContext context) {
+    int currentBalance = controller.currentBalance;
     Item selectedItem = controller.selectedItem!;
-    int currentAmount = 1000000;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -52,7 +52,7 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
           
                           /// left amount account
                           Text(
-                            '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentAmount)} (원/ETH)',
+                            '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentBalance)} (원)',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18.0),
                           ),
@@ -69,7 +69,7 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                           const SizedBox(height: 4.0),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: currentAmount < int.parse(selectedItem.price)
+                            child: currentBalance < int.parse(selectedItem.price)
                                 ? const Text(
                                     '구매 가능',
                                     style: TextStyle(color: Colors.green),
