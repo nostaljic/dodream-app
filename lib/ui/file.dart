@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dodream/repository/repository.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -187,7 +188,8 @@ class FileSelect extends GetView<FileController> {
               splashColor: Colors.white,
               minWidth: Get.width,
               padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-              onPressed: () {
+              onPressed: () async {
+                await controller.repository.sendFile(controller.pickedfile!.files.single,);
                 if(controller.fileSelected.value)Get.toNamed("/complete");
               },
               child: Text(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'item.dart';
 final baseUrl="http://ec2-3-37-43-9.ap-northeast-2.compute.amazonaws.com:8080";
 var accessToken ="";
 var username="";
+var userid="";
+var walletAddress ="";
 class LoginModel {
   LoginModel({
     required this.name,
@@ -41,8 +44,10 @@ class MainRepository {
 
 
 
-  Future<dynamic> signinWithUserInfo(String userAccount,String userPassword) async {
+  Future<dynamic> signinWithUserInfo(String userAccount,String userPassword,String wallet) async {
     try{
+      walletAddress = wallet;
+      userid = userAccount;
       var res = await Dio().post(baseUrl+"/api/v1/account/login",
           data: {'id':'${userAccount}',
             'pwd':'${userPassword}',},
@@ -67,14 +72,19 @@ class FileRepository {
   FileRepository();
 
   Future<dynamic> sendFile(fileForSend) async {
+    // List<int> imageBytes = File(fileForSend.path).readAsBytesSync();
+    // base64Encode(imageBytes);
+    // print(base64Encode(imageBytes));
+
     var formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(fileForSend.path,
-          filename: "${fileForSend.path}"),
-      "username": "",
-      "userid": "",
+          filename: "${fileForSend.name}"),
+      "wallet":walletAddress,
+      "name": fileForSend.name,
+      "id": userid,
     });
-    var response = await Dio().post(baseUrl + "/file", data: formData);
-    print(response);
+   var response = await Dio().post(baseUrl + "/api/v1/dodream/upload", data: formData);
+  print(response);
     return response;
   }
 }
