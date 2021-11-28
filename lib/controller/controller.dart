@@ -91,3 +91,10 @@ class MainController extends GetxController {
   }
 
 }
+
+class PurchaseController extends GetxController {
+  final PurchaseRepository purchaseRepository;
+
+  PurchaseController({required this.purchaseRepository });
+  
+}
