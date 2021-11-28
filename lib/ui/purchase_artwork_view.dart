@@ -9,7 +9,9 @@ import 'package:dodream/controller/controller.dart';
 import 'package:dodream/repository/repository.dart';
 
 class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
-  const PurchaseArtworkView({Key? key}) : super(key: key);
+  PurchaseArtworkView({Key? key}) : super(key: key);
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,112 +22,117 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+          child: Scrollbar(
+            controller: _scrollController,
+            // isAlwaysShown: true,
+            child: ListView(
+              controller: _scrollController,
+              children: [
+                Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          /// blank space for progress bar
+                          SizedBox(height: Get.height * 0.15),
+          
+                          /// image
+                          CachedNetworkImage(
+                              imageUrl: selectedItem.itemURL,
+                              height: Get.width),
+          
+                          /// name
+                          Text(
+                            selectedItem.itemName,
+                            style: const TextStyle(color: Color(0xFFAFAFAF)),
+                          ),
+          
+                          /// left amount account
+                          Text(
+                            '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentAmount)} (원/ETH)',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18.0),
+                          ),
+          
+                          /// ID
+                          informationCard('아이디', selectedItem.id),
+          
+                          /// wallet address
+                          informationCard('지갑 주소', selectedItem.ino),
+          
+                          /// price
+                          informationCard('가격', selectedItem.price),
+          
+                          const SizedBox(height: 4.0),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: currentAmount < int.parse(selectedItem.price)
+                                ? const Text(
+                                    '구매 가능',
+                                    style: TextStyle(color: Colors.green),
+                                  )
+                                : const Text(
+                                    '잔액 부족',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                          ),
+                          const SizedBox(height: 16.0),
+          
+                          /// buttons
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: () => Get.back(),
+                                child: const Text('취소'),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color(0xFFEFEFEF),
+                                  minimumSize: Size(Get.width * 0.3, 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => Get.offNamed('/complete'),
+                                child: const Text(
+                                  '다음',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color(0xffEFAF01),
+                                  minimumSize: Size(Get.width * 0.6, 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
                       children: [
-                        /// blank space for progress bar
-                        SizedBox(height: Get.height * 0.15),
-
-                        /// image
-                        CachedNetworkImage(
-                            imageUrl: selectedItem.itemURL,
-                            height: Get.width * 0.6),
-
-                        /// name
-                        Text(
-                          selectedItem.itemName,
-                          style: const TextStyle(color: Color(0xFFAFAFAF)),
-                        ),
-
-                        /// left amount account
-                        Text(
-                          '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentAmount)} (원/ETH)',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18.0),
-                        ),
-
-                        /// ID
-                        informationCard('아이디', selectedItem.id),
-
-                        /// wallet address
-                        informationCard('지갑 주소', selectedItem.ino),
-
-                        /// price
-                        informationCard('가격', selectedItem.price),
-
-                        const SizedBox(height: 4.0),
+                        SizedBox(height: Get.height * 0.05),
                         Align(
-                          alignment: Alignment.centerRight,
-                          child: currentAmount < int.parse(selectedItem.price)
-                              ? const Text(
-                                  '구매 가능',
-                                  style: TextStyle(color: Colors.green),
-                                )
-                              : const Text(
-                                  '잔액 부족',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                        ),
-                        const SizedBox(height: 16.0),
-
-                        /// buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              onPressed: () => Get.back(),
-                              child: const Text('취소'),
-                              style: TextButton.styleFrom(
-                                backgroundColor: const Color(0xFFEFEFEF),
-                                minimumSize: Size(Get.width * 0.3, 40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () => Get.offNamed('/complete'),
-                              child: const Text(
-                                '다음',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: const Color(0xffEFAF01),
-                                minimumSize: Size(Get.width * 0.6, 40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                            alignment: Alignment.center,
+                            child: StepProgressView(
+                                curStep: 2,
+                                width: Get.width * 0.7,
+                                color: const Color(0xffEFAF01),
+                                titles: controller.stepper)),
                       ],
                     ),
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(height: Get.height * 0.05),
-                      Align(
-                          alignment: Alignment.center,
-                          child: StepProgressView(
-                              curStep: 2,
-                              width: Get.width * 0.7,
-                              color: const Color(0xffEFAF01),
-                              titles: controller.stepper)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
