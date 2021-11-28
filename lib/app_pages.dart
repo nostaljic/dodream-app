@@ -52,7 +52,7 @@ class AppPages {
     
     GetPage(
       name: Routes.PURCHASE,
-      page: () => const PurchaseArtworkView(),
+      page: () => PurchaseArtworkView(),
       bindings: [RetrieveAndPurchaseBinding()]
     )
   ];
