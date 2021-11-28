@@ -96,6 +96,7 @@ class RetrieveArtWorksView extends GetView<RetrieveAndPurchaseController> {
 
   Widget _artWorkList() {
     var items = controller.items;
+    controller.setSelectedItem(items[0]); // for init
     return ListView.separated(
         itemBuilder: (context, index) => GestureDetector(
               onTap: () {

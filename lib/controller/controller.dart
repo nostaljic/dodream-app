@@ -103,8 +103,7 @@ class RetrieveAndPurchaseController extends GetxController {
   var currentStep = 0;
   var nowCheckedIndex = 0.obs;
   late List<Item> items;
-  Item selectedItem =
-      Item(id: '', ino: '', itemName: '', itemURL: '', price: '').obs as Item;
+  Item? selectedItem;
 
   @override
   Future<void> onInit() async {
@@ -116,6 +115,6 @@ class RetrieveAndPurchaseController extends GetxController {
   void setSelectedItem(Item newItem) => selectedItem = newItem;
 
   void purchaseSelectedItem() {
-    log("you have selected ${selectedItem.itemName}");
+    log("you have selected ${selectedItem?.itemName}");
   }
 }

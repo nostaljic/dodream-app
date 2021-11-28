@@ -13,11 +13,13 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
 
   @override
   Widget build(BuildContext context) {
-    Item selectedItem = controller.selectedItem;
+    Item selectedItem = controller.selectedItem!;
+    int currentAmount = 1000000;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: SizedBox(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               Stack(
@@ -25,9 +27,15 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                   Align(
                     alignment: Alignment.center,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        /// blank space for progress bar
+                        SizedBox(height: Get.height * 0.15),
+
                         /// image
-                        CachedNetworkImage(imageUrl: selectedItem.itemURL),
+                        CachedNetworkImage(
+                            imageUrl: selectedItem.itemURL, height: Get.width),
 
                         /// name
                         Text(
@@ -37,18 +45,31 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
 
                         /// left amount account
                         Text(
-                          '현재 잔액 : ${NumberFormat('###,###,###,###').format(100000)} (원/ETH)',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentAmount)} (원/ETH)',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0),
                         ),
 
                         /// ID
-                        informationCard('아이디', 'japyon'),
+                        informationCard('아이디', selectedItem.id),
 
                         /// wallet address
-                        informationCard('아이디', 'japyon'),
+                        informationCard('지갑 주소', selectedItem.ino),
 
                         /// price
-                        informationCard('아이디', 'japyon'),
+                        informationCard('가격', selectedItem.price),
+
+                        const SizedBox(height: 4.0),
+                        currentAmount < int.parse(selectedItem.price)
+                            ? const Text(
+                                '구매 가능',
+                                style: TextStyle(color: Colors.green),
+                              )
+                            : const Text(
+                                '잔액 부족',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                        const SizedBox(height: 16.0),
 
                         /// buttons
                         Row(
@@ -59,6 +80,7 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                               child: const Text('취소'),
                               style: TextButton.styleFrom(
                                 backgroundColor: const Color(0xFFEFEFEF),
+                                minimumSize: Size(Get.width * 0.3, 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
@@ -66,9 +88,15 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                             ),
                             TextButton(
                               onPressed: () => Get.offNamed('/complete'),
-                              child: const Text('다음'),
+                              child: const Text(
+                                '다음',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               style: TextButton.styleFrom(
                                 backgroundColor: const Color(0xffEFAF01),
+                                minimumSize: Size(Get.width * 0.6, 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
@@ -85,7 +113,7 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                       Align(
                           alignment: Alignment.center,
                           child: StepProgressView(
-                              curStep: 1,
+                              curStep: 2,
                               width: Get.width * 0.7,
                               color: const Color(0xffEFAF01),
                               titles: controller.stepper)),
@@ -101,15 +129,18 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
   }
 
   Widget informationCard(String title, String detail) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 24.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        width: Get.width,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             /// title
             Text(
               title,
               style: const TextStyle(color: Color(0xFFAEAEAE)),
             ),
+            const SizedBox(height: 8.0),
 
             /// details
             Container(
