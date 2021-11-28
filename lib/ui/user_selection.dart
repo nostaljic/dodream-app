@@ -63,7 +63,7 @@ class UserSelection extends StatelessWidget {
               if (index == 0) {
                 Get.offNamed("/plan");
               } else {
-                Get.toNamed("/purchase");
+                Get.toNamed("/retrieve");
               }
             },
 
