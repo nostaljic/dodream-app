@@ -25,7 +25,8 @@ Map<String, dynamic> generateBodyForAccountBalance(
       "FinAcno": finAcno
     };
 
-var accessToken = "";
+var accessToken =
+    "dc29640ad73b5918d9910839f305b445d2efd163947def10be487b0ec1aa946e";
 var username = "";
 var userid = "";
 var walletAddress = "";
@@ -107,6 +108,8 @@ class FileRepository {
 class RetrieveAndPurchaseRepository {
   /// for data save
   late List<Item> items;
+  late String userWalletAddress = walletAddress;
+  late String userID = userid;
 
   /// constructor
   RetrieveAndPurchaseRepository() {
@@ -115,11 +118,14 @@ class RetrieveAndPurchaseRepository {
 
   void printHelloWorld() => d.log("Hello World !");
 
-  Future<List<String>> getUserAccountBalance(
-      {required String userAccessToken, required String finAcno}) async {
+  Future<List<String>> getUserAccountBalance() async {
     try {
       var dio = Dio();
-      dio.options.headers = {"accessToken": userAccessToken};
+      dio.options.headers = {
+        "accessToken": accessToken,
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      };
       final response = await dio.get(baseURL + "/api/v1/account/detail");
 
       if (response.statusCode == 200) {
@@ -152,10 +158,10 @@ class RetrieveAndPurchaseRepository {
     return retrievedItems;
   }
 
-  Future<void> purchaseItem(
-      {required Item itemToPurchase,
-      required String acno,
-      required String accessToken}) async {
+  Future<void> purchaseItem({
+    required Item itemToPurchase,
+    required String acno,
+  }) async {
     try {
       var res = await Dio().post(
         baseURL + "/api/v1/account/transferDeposit",

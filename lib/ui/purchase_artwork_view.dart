@@ -15,6 +15,8 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
 
   @override
   Widget build(BuildContext context) {
+    String userID = controller.userID;
+    String userWalletAddress = controller.walletAddress;
     int currentBalance = controller.currentBalance;
     Item selectedItem = controller.selectedItem!;
     return Scaffold(
@@ -58,10 +60,10 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                           ),
           
                           /// ID
-                          informationCard('아이디', selectedItem.id),
+                          informationCard('아이디', userID),
           
                           /// wallet address
-                          informationCard('지갑 주소', selectedItem.ino),
+                          informationCard('지갑 주소', userWalletAddress),
           
                           /// price
                           informationCard('가격', selectedItem.price),

@@ -104,6 +104,8 @@ class RetrieveAndPurchaseController extends GetxController {
   var nowCheckedIndex = 0.obs;
   late List<Item> items;
   Item? selectedItem;
+  String walletAddress = "";
+  String userID= "";
 
   late int currentBalance = 0;
 
@@ -111,11 +113,10 @@ class RetrieveAndPurchaseController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     items = retrieveRepository.items;
-    List<String> balances = await retrieveRepository.getUserAccountBalance(
-        userAccessToken:
-            "dc29640ad73b5918d9910839f305b445d2efd163947def10be487b0ec1aa946e",
-        finAcno: "00820100012470000000000012778");
+    List<String> balances = await retrieveRepository.getUserAccountBalance();
     currentBalance = int.parse(balances[0]);
+    walletAddress = retrieveRepository.userWalletAddress;
+    userID = retrieveRepository.userID;
   }
 
   // TODO select and purchase
@@ -124,4 +125,8 @@ class RetrieveAndPurchaseController extends GetxController {
   void purchaseSelectedItem() {
     log("you have selected ${selectedItem?.itemName}");
   }
+
+  /// refresh current balance
+  void refreshCurrentBalance() async => currentBalance =
+      int.parse((await retrieveRepository.getUserAccountBalance())[0]);
 }

@@ -8,7 +8,7 @@ class LoginStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: MethodSelection(),
     );
   }
@@ -22,7 +22,7 @@ class MethodSelection extends GetView<MainController> {
     return Center(
       child: Container(
         width: Get.width * 0.8,
-        height: Get.height * 0.6,
+        height: Get.height,
         decoration: BoxDecoration(
           color: Colors.transparent,
         ),
@@ -30,7 +30,9 @@ class MethodSelection extends GetView<MainController> {
             key: controller.formKey_dodream_login,
             child: Stack(children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  //SizedBox(height: Get.height * 0.2),
                   SizedBox(
                       width: 123, child: Image.asset("images/main_logo.png")),
                   _userAccount(),
@@ -39,7 +41,6 @@ class MethodSelection extends GetView<MainController> {
                   _startButton(),
                 ],
               ),
-
             ])),
       ),
     );
@@ -93,7 +94,7 @@ class MethodSelection extends GetView<MainController> {
             ),
           ),
           validator: (String? value) {
-            if (value!.length ==0) {
+            if (value!.length == 0) {
               return "아이디를 입력해주세요.";
             }
           }),
@@ -132,7 +133,6 @@ class MethodSelection extends GetView<MainController> {
                 color: Color(0xffced1d2),
                 width: 2.0,
               ),
-
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
@@ -153,10 +153,10 @@ class MethodSelection extends GetView<MainController> {
             if (value!.length == 0) {
               return "비밀번호를 확인하세요.";
             }
-
           }),
     );
   }
+
   Widget _userWalletAddress() {
     return Padding(
       padding: EdgeInsets.only(top: Get.height * 0.05, left: 20.0, right: 20.0),
@@ -205,12 +205,13 @@ class MethodSelection extends GetView<MainController> {
             ),
           ),
           validator: (String? value) {
-            if (value!.length ==0) {
+            if (value!.length == 0) {
               return "지갑 주소를 입력해주세요.";
             }
           }),
     );
   }
+
   Widget _startButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -223,22 +224,21 @@ class MethodSelection extends GetView<MainController> {
           minWidth: Get.width,
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           onPressed: () async {
-              print(controller.formKey_dodream_login.currentState!.validate());
-              if(controller.formKey_dodream_login.currentState!.validate()){
-
-                var res = await controller.repository.signinWithUserInfo(controller.accountTextController.text, controller.passwordTextController.text,controller.walletAddressTextController.text);
-                //Get.offNamed("/select");
-                if(res['result']==true){
-                  Get.offNamed("/select");
-                }
-
-
-
-              }else{
-                //Get.toNamed("/plan");
+            print(controller.formKey_dodream_login.currentState!.validate());
+            if (controller.formKey_dodream_login.currentState!.validate()) {
+              var res = await controller.repository.signinWithUserInfo(
+                  controller.accountTextController.text,
+                  controller.passwordTextController.text,
+                  controller.walletAddressTextController.text);
+              //Get.offNamed("/select");
+              if (res['result'] == true) {
+                Get.offNamed("/select");
               }
-        },
-          child: Text(
+            } else {
+              //Get.toNamed("/plan");
+            }
+          },
+          child: const Text(
             "로그인",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
