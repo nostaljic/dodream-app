@@ -1,4 +1,5 @@
 import 'package:dodream/ui/complete.dart';
+import 'package:dodream/ui/purchase_complete.dart';
 import 'package:dodream/ui/purchase_artwork_view.dart';
 import 'package:dodream/ui/retrieve_artworks_view.dart';
 import 'package:dodream/ui/user_selection.dart';
@@ -23,6 +24,7 @@ abstract class Routes {
   static const PURCHASE = '/purchase';
 
   static const COMPLETE = '/complete';
+  static const PURCHASE_COMPLETE = '/purchasecomplete';
   static const FILESELECT = '/fileselect';
   static const RECORD = '/record';
   static const CAM = '/cam';
@@ -40,6 +42,7 @@ class AppPages {
         page: () => FileSelect(),
         bindings: [FileBinding()]),
     GetPage(name: Routes.COMPLETE, page: () => Complete()),
+    GetPage(name: Routes.PURCHASE_COMPLETE, page: () => PurchaseComplete()),
 
     // added 1128 - 14:24
     GetPage(name: Routes.SELECT, page: () => const UserSelection()),

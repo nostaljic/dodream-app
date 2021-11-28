@@ -97,7 +97,7 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () => Get.offNamed('/complete'),
+                                onPressed: () => Get.offNamed('/purchasecomplete'),
                                 child: const Text(
                                   '다음',
                                   style: TextStyle(

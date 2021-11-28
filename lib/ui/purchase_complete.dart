@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dodream/controller/controller.dart';
 
-class Complete extends StatelessWidget {
-  const Complete({Key? key}) : super(key: key);
+class PurchaseComplete extends StatelessWidget {
+  const PurchaseComplete({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Complete extends StatelessWidget {
                   height: Get.height * .01,
                 ),
                 Text(
-                  "심사 요청 완료",
+                  "구매 완료",
                   style: TextStyle(
                       color: Color(0xffFFB70D),
                       fontSize: 28,
@@ -34,7 +34,7 @@ class Complete extends StatelessWidget {
                 SizedBox(
                   height: Get.height * .01,
                 ),
-                Text("저작물이 성공적으로 업로드 되었습니다.",
+                Text("소유권이 이전되었습니다.",
                     style: TextStyle(color: Color(0xff000000), fontSize: 16)),
                 SizedBox(
                   height: Get.height * .1,
