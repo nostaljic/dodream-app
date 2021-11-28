@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dodream/ui/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:status_change/status_change.dart';
 import 'package:dodream/controller/controller.dart';
 import 'package:dodream/repository/repository.dart';
@@ -121,11 +122,14 @@ class RetrieveArtWorksView extends GetView<RetrieveAndPurchaseController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: Get.width * 0.2,
-                            child: CachedNetworkImage(
-                              imageUrl: items[index].itemURL,
-                              fit: BoxFit.cover,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: SizedBox(
+                              width: Get.width * 0.2,
+                              child: CachedNetworkImage(
+                                imageUrl: items[index].itemURL,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -140,7 +144,7 @@ class RetrieveArtWorksView extends GetView<RetrieveAndPurchaseController> {
                                       fontSize: 18),
                                 ),
                                 const SizedBox(height: 10),
-                                Text(items[index].price)
+                                Text(NumberFormat('###,###,###,###,###,###,###,###,###').format(int.parse(items[index].price)))
                               ],
                             ),
                           )

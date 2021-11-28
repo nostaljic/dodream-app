@@ -12,6 +12,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       itemName: json['itemName'] as String,
       itemURL: json['itemURL'] as String,
       price: json['price'] as String,
+      acno: json['acno'] as String,
     );
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'itemName': instance.itemName,
       'itemURL': instance.itemURL,
       'ino': instance.ino,
+      'acno': instance.acno,
     };

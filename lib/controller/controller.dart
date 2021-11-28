@@ -94,9 +94,9 @@ class MainController extends GetxController {
 }
 
 class RetrieveAndPurchaseController extends GetxController {
-  final RetrieveAndPurchaseRepository retrieveRepository;
+  final RetrieveAndPurchaseRepository repository;
 
-  RetrieveAndPurchaseController({required this.retrieveRepository});
+  RetrieveAndPurchaseController({required this.repository});
 
   //for main pages
   var stepper = ["상품 조회", "상품 구매", "구매 완료"];
@@ -105,28 +105,38 @@ class RetrieveAndPurchaseController extends GetxController {
   late List<Item> items;
   Item? selectedItem;
   String walletAddress = "";
-  String userID= "";
+  String userID = "";
 
   late int currentBalance = 0;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    items = retrieveRepository.items;
-    List<String> balances = await retrieveRepository.getUserAccountBalance();
+    items = repository.items;
+    List<String> balances = await repository.getUserAccountBalance();
     currentBalance = int.parse(balances[0]);
-    walletAddress = retrieveRepository.userWalletAddress;
-    userID = retrieveRepository.userID;
+    walletAddress = repository.userWalletAddress;
+    userID = repository.userID;
   }
 
-  // TODO select and purchase
+  /// select item
   void setSelectedItem(Item newItem) => selectedItem = newItem;
 
-  void purchaseSelectedItem() {
-    log("you have selected ${selectedItem?.itemName}");
+  /// purchase new item
+  Future<bool> purchaseSelectedItem({
+    required Item itemToPurchase,
+    required String acno,
+  }) async {
+    final result = await repository.purchaseItem(
+        itemToPurchase: itemToPurchase, acno: acno);
+    if (result) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// refresh current balance
-  void refreshCurrentBalance() async => currentBalance =
-      int.parse((await retrieveRepository.getUserAccountBalance())[0]);
+  Future<void> refreshCurrentBalance() async =>
+      currentBalance = int.parse((await repository.getUserAccountBalance())[0]);
 }

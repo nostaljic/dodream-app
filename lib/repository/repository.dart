@@ -2,6 +2,7 @@ import 'dart:developer' as d;
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:dodream/repository/test_data.dart';
 import 'package:intl/intl.dart';
 
 import 'item.dart';
@@ -25,8 +26,7 @@ Map<String, dynamic> generateBodyForAccountBalance(
       "FinAcno": finAcno
     };
 
-var accessToken =
-    "dc29640ad73b5918d9910839f305b445d2efd163947def10be487b0ec1aa946e";
+var accessToken = "4aa57ae1491a8364441a2f5322f91ccd4f8d618af1ddc76a7d088b65d4ad6635";
 var username = "";
 var userid = "";
 var walletAddress = "";
@@ -146,33 +146,33 @@ class RetrieveAndPurchaseRepository {
 
   List<Item> retrieveItems() {
     List<Item> retrievedItems = [];
-    for (int i = 0; i < 10; ++i) {
-      retrievedItems.add(Item(
-          id: 'jdklmdf1podmw1kem1k23e',
-          ino: '1i2hjwi91me90m120sd9m',
-          itemName: '샘플 예시 그림',
-          itemURL:
-              'https://images.unsplash.com/photo-1598128558393-70ff21433be0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1989&q=80',
-          price: '12345667890'));
-    }
+    retrievedItems.addAll(testData);
     return retrievedItems;
   }
 
-  Future<void> purchaseItem({
+  Future<bool> purchaseItem({
     required Item itemToPurchase,
     required String acno,
   }) async {
     try {
       var res = await Dio().post(
         baseURL + "/api/v1/account/transferDeposit",
-        data: {"acno": acno, "tram": itemToPurchase.price},
+        data: {"acno": acno, "tram": int.parse(itemToPurchase.price)},
         options: Options(
-          headers: {"accessToken": accessToken},
+          headers: {
+            "accessToken": accessToken,
+            "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          },
         ),
       );
-      d.log(res.toString());
+      if (res.statusCode == 200) {
+        return true;
+      }
+      throw NullThrownError;
     } catch (e) {
       d.log("[purchaseItem Error] : ${e.toString()}");
+      rethrow;
     }
   }
 }
