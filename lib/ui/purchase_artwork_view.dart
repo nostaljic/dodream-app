@@ -27,7 +27,7 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                   Align(
                     alignment: Alignment.center,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         /// blank space for progress bar
@@ -35,7 +35,8 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
 
                         /// image
                         CachedNetworkImage(
-                            imageUrl: selectedItem.itemURL, height: Get.width),
+                            imageUrl: selectedItem.itemURL,
+                            height: Get.width * 0.6),
 
                         /// name
                         Text(
@@ -60,15 +61,18 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                         informationCard('가격', selectedItem.price),
 
                         const SizedBox(height: 4.0),
-                        currentAmount < int.parse(selectedItem.price)
-                            ? const Text(
-                                '구매 가능',
-                                style: TextStyle(color: Colors.green),
-                              )
-                            : const Text(
-                                '잔액 부족',
-                                style: TextStyle(color: Colors.red),
-                              ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: currentAmount < int.parse(selectedItem.price)
+                              ? const Text(
+                                  '구매 가능',
+                                  style: TextStyle(color: Colors.green),
+                                )
+                              : const Text(
+                                  '잔액 부족',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                        ),
                         const SizedBox(height: 16.0),
 
                         /// buttons
