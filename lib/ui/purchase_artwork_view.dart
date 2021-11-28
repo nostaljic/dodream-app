@@ -15,8 +15,10 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
 
   @override
   Widget build(BuildContext context) {
+    String userID = controller.userID;
+    String userWalletAddress = controller.walletAddress;
+    int currentBalance = controller.currentBalance;
     Item selectedItem = controller.selectedItem!;
-    int currentAmount = 1000000;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -38,49 +40,53 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                         children: [
                           /// blank space for progress bar
                           SizedBox(height: Get.height * 0.15),
-          
+
                           /// image
                           CachedNetworkImage(
                               imageUrl: selectedItem.itemURL,
                               height: Get.width),
-          
+
                           /// name
                           Text(
                             selectedItem.itemName,
                             style: const TextStyle(color: Color(0xFFAFAFAF)),
                           ),
-          
+
                           /// left amount account
                           Text(
-                            '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentAmount)} (원/ETH)',
+                            '현재 잔액 : ${NumberFormat('###,###,###,###').format(currentBalance)} (원)',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18.0),
                           ),
-          
+
                           /// ID
-                          informationCard('아이디', selectedItem.id),
-          
+                          informationCard('아이디', userID),
+
                           /// wallet address
-                          informationCard('지갑 주소', selectedItem.ino),
-          
+                          informationCard('지갑 주소', userWalletAddress),
+
                           /// price
-                          informationCard('가격', selectedItem.price),
-          
+                          informationCard(
+                              '가격',
+                              NumberFormat('###,###,###,###')
+                                  .format(int.parse(selectedItem.price))),
+
                           const SizedBox(height: 4.0),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: currentAmount < int.parse(selectedItem.price)
-                                ? const Text(
-                                    '구매 가능',
-                                    style: TextStyle(color: Colors.green),
-                                  )
-                                : const Text(
-                                    '잔액 부족',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
+                            child:
+                                currentBalance > int.parse(selectedItem.price)
+                                    ? const Text(
+                                        '구매 가능',
+                                        style: TextStyle(color: Colors.green),
+                                      )
+                                    : const Text(
+                                        '잔액 부족',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
                           ),
                           const SizedBox(height: 16.0),
-          
+
                           /// buttons
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +103,29 @@ class PurchaseArtworkView extends GetView<RetrieveAndPurchaseController> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () => Get.offNamed('/purchasecomplete'),
+                                onPressed: () async {
+                                  if (currentBalance >
+                                      int.parse(selectedItem.price)) {
+                                    /// send request
+                                    final res =
+                                        await controller.purchaseSelectedItem(
+                                            itemToPurchase:
+                                                controller.selectedItem!,
+                                            // TODO hard-coded here
+                                            acno: "3020000005444");
+                                    if (res) {
+                                      return Get.offNamed('/purchasecomplete');
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text("전송 실패!")));
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text("잔액 부족!")));
+                                  }
+                                },
                                 child: const Text(
                                   '다음',
                                   style: TextStyle(

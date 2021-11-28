@@ -50,6 +50,6 @@ class RetrieveAndPurchaseBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(
-        () => RetrieveAndPurchaseController(retrieveRepository: RetrieveAndPurchaseRepository()));
+        () => RetrieveAndPurchaseController(repository: RetrieveAndPurchaseRepository()));
   }
 }
