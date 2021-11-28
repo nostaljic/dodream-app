@@ -2,8 +2,7 @@ import 'package:get/get.dart';
 import 'package:dodream/controller/controller.dart';
 import 'package:dodream/repository/repository.dart';
 
-
-class MainBinding extends Bindings{
+class MainBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
@@ -11,24 +10,21 @@ class MainBinding extends Bindings{
       return MainController(
         repository: MainRepository(),
       );
-    },fenix:true
-
-    );
+    }, fenix: true);
   }
 }
 
-class PlanBinding extends Bindings{
+class PlanBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
     Get.lazyPut(() {
       return PlanController();
-    },fenix:true
-
-    );
+    }, fenix: true);
   }
 }
-class FileBinding extends Bindings{
+
+class FileBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
@@ -36,20 +32,24 @@ class FileBinding extends Bindings{
       return FileController(
         repository: FileRepository(),
       );
-    }
-
-    );
+    });
   }
 }
 
-class ResearchBinding extends Bindings{
+class ResearchBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
     Get.lazyPut(() {
       return ResearchController();
-    },fenix:false
+    }, fenix: false);
+  }
+}
 
-    );
+class RetrieveAndPurchaseBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(
+        () => RetrieveAndPurchaseController(retrieveRepository: RetrieveAndPurchaseRepository()));
   }
 }

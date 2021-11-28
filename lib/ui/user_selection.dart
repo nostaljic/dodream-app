@@ -26,7 +26,7 @@ class UserSelection extends StatelessWidget {
                         SizedBox(height: Get.height * 0.15),
                         Column(
                           children: const [
-                            Text("어떤 작업을 해볼까요? 🧐"),
+                            Text("어떤 작업을 해볼까요?"),
                             Text("선택 완료 버튼을 통해 다음 단계로 이동합니다."),
                           ],
                         ),
@@ -63,7 +63,7 @@ class UserSelection extends StatelessWidget {
               if (index == 0) {
                 Get.offNamed("/plan");
               } else {
-                Get.toNamed("/purchase");
+                Get.toNamed("/retrieve");
               }
             },
 
